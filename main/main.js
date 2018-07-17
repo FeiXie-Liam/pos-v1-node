@@ -49,45 +49,47 @@ function create_items_list_from_grouped_items(grouped_list) {
 }
 
 function print_list(items_list) {
-    print_head()
+    msg = "";
+    msg += print_head()
 
-    items_list.forEach(print_item);
+    items_list.forEach(item => msg += print_item(item));
 
-    print_divide_line();
+    msg += print_divide_line();
 
-    console.log('挥泪赠送商品：');
+    msg += '挥泪赠送商品：\n';
     items_list.filter(itemlist=>itemlist.is_promoting === true)
-    .forEach(print_promotion_info)
+    .forEach(promoting_item => msg+=print_promotion_info(promoting_item))
 
-    print_divide_line()
+    msg += print_divide_line()
 
     total_price = items_list.reduce((sum, item)=>sum+item.total_price(), 0);
     promotion_price = items_list.reduce((sum, item)=>sum+item.promotion_price(), 0);
-    print_total_price(total_price, promotion_price);
+    msg += print_total_price(total_price, promotion_price);
 
-    console.log('**********************');
+    msg += '**********************';
+    console.log(msg);
 }
 
 function print_head() {
-    console.log("***<没钱赚商店>购物清单***");
+    return "***<没钱赚商店>购物清单***\n";
 }
 
 function print_item(itemlist) {
     msg = '名称：' + itemlist.name + '，数量：' + itemlist.item_count + itemlist.unit +
-        '，单价：' + itemlist.price.toFixed(2) + '(元)，小计：' + itemlist.total_price().toFixed(2) + '(元)'
-    console.log(msg);
+        '，单价：' + itemlist.price.toFixed(2) + '(元)，小计：' + itemlist.total_price().toFixed(2) + '(元)\n'
+    return msg;
 }
 
 function print_promotion_info(itemlist){
-    msg = '名称：' + itemlist.name + '，数量：' + itemlist.promotion_count() + itemlist.unit;
-    console.log(msg);
+    msg = '名称：' + itemlist.name + '，数量：' + itemlist.promotion_count() + itemlist.unit + '\n';
+    return msg;
 }
 
 function print_divide_line(){
-    console.log('----------------------');
+    return '----------------------\n';
 }
 
 function print_total_price(total_price, promotion_price){
-    msg = '总计：' + total_price.toFixed(2) + '(元)\n节省：' + promotion_price.toFixed(2) + '(元)';
-    console.log(msg);
+    msg = '总计：' + total_price.toFixed(2) + '(元)\n节省：' + promotion_price.toFixed(2) + '(元)\n';
+    return msg;
 }
