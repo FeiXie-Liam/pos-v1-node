@@ -15,6 +15,18 @@ module.exports = class Itemlist {
   }
 
   total_price() {
-    return this.price * this.item_count;
+    return this.price * this.item_count - this.promotion_price();
+  }
+
+  promotion_price() {
+    let promotion_price = 0;
+    this.is_promoting ?
+      promotion_price = this.price * this.promotion_count() :
+      promotion_price = 0;
+    return promotion_price;
+  }
+
+  promotion_count() {
+    return Math.floor(this.item_count / 3);
   }
 }
